@@ -8,13 +8,13 @@ import Sidebar from "./components/Sidebar"
 function App() {
 
   const[artistas, setArtistas] = useState([]);
-  const [isLoading, setIsLoading] = useState([false])
 
   useEffect(() => {
     fetch('http://localhost:3000/artistas')
     .then(res => res.json())
     .then(data => setArtistas(data))
     .catch(err => console.log(err))
+    .finally(() => console.log('Finalizou a requisição'))
   }, [])
 
   return (
@@ -29,13 +29,27 @@ function App() {
         </Sidebar>
 
         <ConteudoPrincipal>
+          <h1>Trap</h1>
         {
-          artistas.map( artista => (
+          artistas
+          .filter(artista => artista.genero === "Trap")
+          .map( artista => (
             <div className="bg-red-500 w-28 h-28 flex flex-col justify-around items-center">
-            <p>{artista.nome}</p>
-            <div className="bg-green-400 w-3/4 h-7"></div>
-            <div className="bg-green-400 w-3/4 h-7"></div>
+            <p>{artista.name}</p>
+            <p>{artista.genero}</p>
         </div>
+          ))
+        }
+
+        <h1>Internacional</h1>
+        {
+          artistas
+          .filter(artista => artista.genero === "Internacional")
+          .map(artista => (
+            <div className="bg-red-500 w-28 h-28 flex flex-col justify-around items-center">
+            <p>{artista.name}</p>
+            <p>{artista.genero}</p>
+          </div>
           ))
         }
         
